@@ -1,0 +1,48 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+# cd project_root (needed when started as public/$0.cgi)
+use FindBin; BEGIN { chdir $FindBin::RealBin }
+use EV;
+use Mojolicious 6.0;
+
+use _init;
+
+use Path::Tiny; $::VERSION = (path('VERSION')->lines({ chomp=>1 }))[0];
+
+use constant DIE_STATUS => 255;
+
+# mode should be set here because it's used before executing WebSite::startup()
+local $ENV{MOJO_MODE} = get_config_line('mode');
+
+
+sub allow_non_blocking_cgi {
+    my ($module) = @_;
+    eval "require $module;" or die $@;  ## no critic (ProhibitStringyEval)
+    my $startup = \&{$module.'::startup'};
+    my $wrapper = sub {
+        my ($app) = @_;
+        &{$startup};
+        my $done = AnyEvent->condvar;
+        $app->hook(after_dispatch => sub {
+            $done->send;
+        });
+        $app->hook(around_dispatch => sub {
+            shift->();
+            $done->recv;
+        });
+    };
+    no strict 'refs';
+    no warnings 'redefine';
+    *{$module.'::startup'} = $wrapper;
+    return;
+}
+
+require Mojolicious::Commands;
+if (Mojolicious::Commands->detect(q{}) eq 'cgi') {
+    allow_non_blocking_cgi('WebSite');
+}
+$EV::DIED = sub { warn $@ if !$SIG{__DIE__}; exit DIE_STATUS };
+Mojo::IOLoop->singleton->reactor->unsubscribe('error');
+Mojolicious::Commands->start_app('WebSite');

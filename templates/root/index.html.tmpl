@@ -1,0 +1,68 @@
+% layout 'default';
+% title 'Home', id => 'home';
+
+<article class="row">
+  <header class="page-header">
+    <h1 class="text-center">Technologies used on this page</h1>
+  </header>
+  <section class="col-md-4">
+    <h2>Server</h2>
+    <ul>
+      <li><a href="http://metacpan.org/module/Narada">Narada</a> 1.3.7
+      <li><a href="http://html5boilerplate.com/">HTML5 ★ Boilerplate</a> 4.3.0<br>
+      <li><a href="https://github.com/h5bp/server-configs-apache">Apache Server Configs</a> 2.0.0
+      <li><a href="https://github.com/h5bp/server-configs-nginx">Nginx Server Configs</a> 209bea1152
+      <li><a href="http://mojolicio.us/">Mojolicious</a> 4.57
+    </ul>
+  </section>
+  <section class="col-md-4">
+    <h2>CSS</h2>
+    <ul>
+      <li><a href="http://necolas.github.io/normalize.css/">Normalize.css</a> 2.1.3<br>
+          Included in Twitter Bootstrap.
+      <li><a href="http://getbootstrap.com/">Twitter Bootstrap</a> 3.0.3<br>
+          Using custom theme based on <a href="http://bootswatch.com/">Bootwatch</a>'s
+          <a href="http://bootswatch.com/spacelab/">Spacelab</a> theme.<br>
+          Using sticky footer styles based on
+          <a href="http://getbootstrap.com/examples/sticky-footer-navbar/">Sticky footer with fixed navbar example</a>.
+    </ul>
+  </section>
+  <section class="col-md-4">
+    <h2>Javascript</h2>
+    <ul>
+      <li>Load Javascript libraries from
+          <abbr title="Content Delivery Network">CDN</abbr> whenever
+          possible, with fallback to local files.
+      <li><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">
+            <abbr title="Asynchronous Module Definition">AMD</abbr>
+          </a> format for Javascript modules.
+      <li><a href="http://modernizr.com/">Modernizr</a> 2.6.2
+      <li><a href="https://github.com/scottjehl/Respond">Respond.js</a> 1.1.0<br>
+          Packaged together with Modernizr by <a href="http://www.initializr.com/">Initializr</a>.
+      <li><a href="http://requirejs.org/">RequireJS</a> 2.1.9
+      <li><a href="http://jquery.com/">jQuery</a> 1.10.2
+      <li><a href="http://plugins.jquery.com/jgrowl/">jQuery jGrowl plugin</a> 1.2.13
+      <li><a href="http://underscorejs.org/">Underscore.js</a> 1.5.2<br>
+          AMD-enabled <a href="https://github.com/amdjs/underscore">fork</a> used.
+      <li><a href="https://github.com/epeli/underscore.string">Underscore.string plugin</a> 2.3.1
+      <li><a href="http://backbonejs.org/">Backbone.js</a> 1.1.0<br>
+          AMD-enabled <a href="https://github.com/amdjs/backbone">fork</a> used.
+    </ul>
+  </section>
+</article>
+
+<section class="row">
+  <div class="col-md-4" id="welcome-mojolicious">
+    [%= $message %]
+  </div>
+  <div class="col-md-4" id="welcome-mojolicious">
+    <i class="glyphicon glyphicon-ok"></i>
+    <img src="[%= url_for add_mtime '/img/ajax-loader.gif' %]">
+  </div>
+  <div class="col-md-4" id="welcome-backbone">
+    <script type="text/template" id="tmpl-welcome">
+    <%= message %>
+    </script>
+  </div>
+</section>
+

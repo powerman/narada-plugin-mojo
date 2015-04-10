@@ -1,0 +1,4 @@
+#!/bin/sh
+cd ../..
+rm -f var/hypnotoad.lock.*
+exec hypnotoad -f ./web_site </dev/null 2>&1

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec logger -d -u ../../../var/log.sock -t hypnotoad[0] -p user.warn

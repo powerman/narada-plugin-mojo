@@ -1,0 +1,12 @@
+# Tells Scanning Robots Where They Are And Are Not Welcome
+#
+# User-agent:   can also specify by name; "*" is for everyone
+# Disallow:     disallow if this matches first part of requested path
+#
+# www.robotstxt.org/
+# http://code.google.com/web/controlcrawlindex/
+
+User-agent: *
+
+# Disallow: /
+

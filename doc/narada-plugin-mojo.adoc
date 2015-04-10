@@ -1,0 +1,45 @@
+Narada plugin: mojo
+===================
+
+This project was created using https://github.com/powerman/narada-plugin-mojo
+(plugin for template for new projects designed for Narada framework).
+
+This document describe how to use files provided by this plugin.
+
+
+== Dependencies
+
+Require https://github.com/powerman/narada-plugin-runit[Narada plugin
+runit].
+
+Require https://github.com/powerman/narada-plugin-socklog[Narada plugin
+socklog].
+
+
+== Usage
+
+Edit `migrate` to set default value for config file `title` before first
+release.
+
+
+== Setup
+
+After new deploy you'll need to configure at least these:
+
+- `config/hypnotoad/listen`
+- `config/cookie.secret`
+- `config/mode` (set to "production" on production server)
+
+If this project will be attached to some path on website instead of full
+website, you'll need to setup this path too. For example, if this project will
+be attached to http://site/app/, then:
+
+- `echo /app > config/basepath`
+- If you run project as Apache CGI then modify `public/.htaccess` to:
++
+----
+RewriteBase /app/
+RewriteRule ^(.*)$ /app/web_site.cgi/$1 [L]
+----
+
+
