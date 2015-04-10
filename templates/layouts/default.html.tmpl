@@ -95,7 +95,7 @@ var require = {
       /* Configuration for app and it modules */
       config: {
         'model/Version': {
-          version:          '[%== encode_js(config 'version') %]',
+          version:          '[%== encode_js($::VERSION) %]',
           url:              '[%== encode_js(url_for '/version') %]',
           check_every:      60, // sec
         },
@@ -201,7 +201,7 @@ Modernizr.load([
       <div class="container">
         % my $pagetime = sprintf '%.4f', Time::HiRes::tv_interval(stash('mojo.started'), [Time::HiRes::gettimeofday()]);
         © Company 2013
-        <span class="pull-right">[%= config 'version' %] | page generated in [%= $pagetime %] sec</span>
+        <span class="pull-right">[%= "VERSION is $::VERSION" %] | page generated in [%= $pagetime %] sec</span>
       </div>
     </footer>
 
