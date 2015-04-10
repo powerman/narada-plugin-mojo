@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use Carp;
 
 # cd project_root (needed when started as public/$0.cgi)
 use FindBin; BEGIN { chdir $FindBin::RealBin }
@@ -19,7 +20,7 @@ local $ENV{MOJO_MODE} = get_config_line('mode');
 
 sub allow_non_blocking_cgi {
     my ($module) = @_;
-    eval "require $module;" or die $@;  ## no critic (ProhibitStringyEval)
+    eval "require $module;" or croak $@;  ## no critic (ProhibitStringyEval)
     my $startup = \&{$module.'::startup'};
     my $wrapper = sub {
         my ($app) = @_;
@@ -40,9 +41,11 @@ sub allow_non_blocking_cgi {
 }
 
 require Mojolicious::Commands;
-if (Mojolicious::Commands->detect(q{}) eq 'cgi') {
+my $env = Mojolicious::Commands->detect;
+if (defined $env && $env eq 'cgi') {
     allow_non_blocking_cgi('WebSite');
 }
-$EV::DIED = sub { warn $@ if !$SIG{__DIE__}; exit DIE_STATUS };
+
+$EV::DIED = sub { carp $@ if !$SIG{__DIE__}; exit DIE_STATUS };
 Mojo::IOLoop->singleton->reactor->unsubscribe('error');
 Mojolicious::Commands->start_app('WebSite');

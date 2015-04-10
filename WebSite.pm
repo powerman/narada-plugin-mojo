@@ -3,6 +3,7 @@ use Mojo::Base 'Mojolicious';
 use Text::MiniTmpl qw( encode_js encode_js_data );
 use AnyEvent::DBI::MySQL;
 use DBIx::SecureCGI;
+use List::Util 1.33 qw( none );
 
 use _init;
 
@@ -124,7 +125,7 @@ sub _sane_validation_rules {
             if (!$rules->{fields}) {
                 croak 'You must use {fields} when using Regexp in {checks}';
             }
-            if (!grep {/$field/ms} @{ $rules->{fields} }) {
+            if (none {/$field/ms} @{ $rules->{fields} }) {
                 croak "No fields in {fields} match /$field/ check";
             }
         }

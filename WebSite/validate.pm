@@ -2,7 +2,7 @@ package WebSite::validate;
 use Mojo::Base -strict;
 use Validate::Tiny qw( :all );
 use Perl6::Export::Attrs;
-no warnings qw( experimental::lexical_topic ); # my $_;
+no warnings qw( experimental::lexical_topic ); ## no critic (ProhibitNoWarnings)   # my $_;
 
 
 # Validate rules for models
@@ -30,7 +30,7 @@ sub is_datetime :Export {
         my ($_) = @_;
         return if !defined || !length;
         return 'Bad datetime format' if !/\A$DATE $TIME\z/mso;
-        return 'Bad datetime value'  if !eval{timelocal($6,$5,$4,$3,$2-1,$1)};
+        return 'Bad datetime value'  if !eval{timelocal($6,$5,$4,$3,$2-1,$1)};  ## no critic (ProhibitCaptureWithoutTest)
         return;
     };
 }
@@ -57,7 +57,7 @@ sub is_scalar :Export {
     return sub {
         my ($_) = @_;
         return if !defined;
-        return 'Not a scalar' if ref $_;
+        return 'Not a scalar' if ref;
         return;
     };
 }
