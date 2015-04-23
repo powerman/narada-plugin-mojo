@@ -8,6 +8,7 @@ add_config hypnotoad/accepts    0
 add_config hypnotoad/listen     http://*:8001
 add_config hypnotoad/proxy      1
 add_config hypnotoad/workers    1
+add_config hypnotoad/debug      0
 
 restart hypnotoad
 
