@@ -27,8 +27,17 @@ $::SIG{__DIE__}   = sub {
     my $s = $_[0]; $s =~ s/\n\z//xms; $LOG->ERR($s);
 };
 
-if(!$^C){ $LOG->INFO('started') };  # work around 'too late for INIT{}' with plackup & hypnotoad
-END     { $LOG->INFO('finished') }  # use `plackup -L Delayed` or END{} will run twice
+my ($ident, $level);    # use same ident & level for started & finished
+if(!$^C){               # work around 'too late for INIT{}' with plackup & hypnotoad
+    $ident = $LOG->ident;
+    $level = $LOG->level;
+    $LOG->INFO('started');
+};
+END     {               # use `plackup -L Delayed` or END{} will run twice
+    $LOG->ident($ident);
+    $LOG->level($level);
+    $LOG->INFO('finished');
+}
 
 my @EXPORT = qw(
     &shared_lock &unlock
