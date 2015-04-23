@@ -21,6 +21,16 @@ socklog].
 Edit `migrate` to set default value for config file `title` before first
 release.
 
+It also may be very convenient to automate restart of hypnotoad service on each
+release. For example, if you're using narada-base's `./release` script then you
+can modify it this way:
+
+    release_version() {
+            list_versions "$2" | grep -q -x -F "$1" && return 0
+   +        echo -ne "\nrestart hypnotoad\n" >> "$2"
+            echo -ne "\nINSTALL $1\nVERSION $1\n\n" >> "$2"
+    }
+
 
 == Setup
 
