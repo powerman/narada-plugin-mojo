@@ -3,11 +3,11 @@
 add_config basepath
 add_config cookie.secret
 add_config mode
-set_config title                "Web Site"
-set_config hypnotoad/accepts    0
-set_config hypnotoad/listen     http://*:8001
-set_config hypnotoad/proxy      1
-set_config hypnotoad/workers    1
+add_config title                "Web Site"
+add_config hypnotoad/accepts    0
+add_config hypnotoad/listen     http://*:8001
+add_config hypnotoad/proxy      1
+add_config hypnotoad/workers    1
 
 restart hypnotoad
 

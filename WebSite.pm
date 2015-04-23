@@ -1,9 +1,9 @@
 package WebSite;
 use Mojo::Base 'Mojolicious';
-use Text::MiniTmpl qw( encode_js encode_js_data );
 use AnyEvent::DBI::MySQL;
 use DBIx::SecureCGI;
 use List::Util 1.33 qw( none );
+use Text::MiniTmpl qw( encode_js encode_js_data );
 
 use _init;
 

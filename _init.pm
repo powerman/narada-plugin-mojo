@@ -1,6 +1,7 @@
 package _init;
 use warnings;
 use strict;
+use feature ':5.10';
 use POSIX qw(locale_h); BEGIN { setlocale(LC_MESSAGES,'en_US.UTF-8') } # avoid UTF-8 in $!
 
 use lib 'perl/lib/perl5';   # eval $(perl -Mlocal::lib=perl)

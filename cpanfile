@@ -7,8 +7,9 @@ requires 'List::Util', '1.33';
 requires 'Mojo::Base';
 requires 'Mojolicious', '6.0';
 requires 'Mojolicious::Commands';
-requires 'Mojolicious::Plugin::Narada';
+requires 'Mojolicious::Plugin::Narada', '0.3.0';
 requires 'Mojolicious::Plugin::ValidateTiny';
+requires 'Narada', '2.2.0';
 requires 'Narada::Config';
 requires 'Narada::Lock';
 requires 'Narada::Log';
@@ -16,6 +17,7 @@ requires 'Path::Tiny';
 requires 'Perl6::Export::Attrs';
 requires 'Text::MiniTmpl';
 requires 'Time::Local';
+requires 'Unicode::UTF8';
 requires 'Validate::Tiny';
 
 on test => sub {

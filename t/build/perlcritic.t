@@ -18,7 +18,7 @@ Test::Perl::Critic->import(
     -verbose    => 9,           # verbose 6 will hide rule name
 );
 
-my @files = grep {!m{perl/|t/|public/}} all_perl_files('.');
+my @files = grep {!m{perl/|t/|public/|_live.*/}} all_perl_files('.');
 plan tests => 0+@files;
 for (@files) {
     critic_ok($_);
