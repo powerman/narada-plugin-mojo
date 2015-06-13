@@ -144,11 +144,13 @@ sub _sane_validation_rules {
 sub _set_validation_errors {
     my ($c, %err) = @_;
     my @checks = map {my $e=$err{$_}; $_=>sub{$e}} keys %err; ## no critic (ProhibitComplexMappings)
-    my $r = Validate::Tiny->new(\%err, {fields=>[],checks=>\@checks});
+    my $r = Validate::Tiny->check(\%err, {fields=>[],checks=>\@checks});
     $c->stash( 'validate_tiny.was_called', 1 );
     $c->stash( 'validate_tiny.result' => $r );
-    $c->stash( 'validate_tiny.errors' => $r->error );
-    $c->app->log->debug('ValidateTiny: Failed: '.join ', ', keys %{ $r->error });
+    if (!$r->success) {
+        $c->stash( 'validate_tiny.errors' => $r->error );
+        $c->app->log->debug('ValidateTiny: Failed: '.join ', ', keys %{ $r->error });
+    }
     return;
 }
 

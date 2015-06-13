@@ -1,6 +1,6 @@
 package WebSite::validate;
 use Mojo::Base -strict;
-use Validate::Tiny qw( :all );
+use Validate::Tiny 1.501 qw( :all );
 use Perl6::Export::Attrs;
 no warnings qw( experimental::lexical_topic ); ## no critic (ProhibitNoWarnings)   # my $_;
 
