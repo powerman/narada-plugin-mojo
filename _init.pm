@@ -10,6 +10,7 @@ use lib 'perl/lib/perl5';   # eval $(perl -Mlocal::lib=perl)
 
 use constant LOCK_WAIT => 15; # sec
 use constant CALLER_SUB => 3;
+use constant STACK_DEPTH => 3;
 
 use Narada::Lock qw( shared_lock unlock );
 BEGIN { shared_lock(LOCK_WAIT) or do {warn "can't get bootstrap lock\n"; exit} }
@@ -22,8 +23,9 @@ $::SIG{__WARN__}  = sub {
     my $s = $_[0]; $s =~ s/\n\z//xms; $LOG->WARN($s);
 };
 $::SIG{__DIE__}   = sub {
-    # work around https://github.com/kraih/mojo/issues/774
-    return if any {defined && $_ eq '(eval)'} (caller 1)[CALLER_SUB], (caller 2)[CALLER_SUB];
+    # work around https://github.com/kraih/mojo/issues/774 (stack depth 1-2)
+    # work around error in IO::Socket::SSL (stack depth 3)
+    return if any {defined && $_ eq '(eval)'} map {(caller $_)[CALLER_SUB]} 1 .. STACK_DEPTH;
     my $s = $_[0]; $s =~ s/\n\z//xms; $LOG->ERR($s);
 };
 
