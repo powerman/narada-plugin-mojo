@@ -19,6 +19,12 @@ requires 'Text::MiniTmpl';
 requires 'Time::Local';
 requires 'Unicode::UTF8';
 requires 'Validate::Tiny', '1.501';
+requires 'Email::Abstract';
+requires 'Email::Address';
+requires 'Email::MIME';
+requires 'Email::Sender::Simple';
+requires 'Mojo::Template';
+requires 'feature';
 
 on test => sub {
     requires 'Log::Fast';
@@ -26,4 +32,11 @@ on test => sub {
     requires 'Test::Mojo';
     requires 'Test::More';
     requires 'Test::Perl::Critic';
+    requires 'Mojo::Reactor::EV';
+    requires 'Mojo::Reactor::Poll';
+    requires 'Mojo::Util';
+    requires 'Test::Exception';
+    requires 'Test::MockModule';
+    requires 'Time::HiRes';
+    requires 't::plugin_mojo::share';
 };

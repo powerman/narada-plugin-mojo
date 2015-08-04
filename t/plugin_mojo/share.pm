@@ -15,7 +15,7 @@ use _init;
 
 
 ### Deterministic time & Mojo timers:
-# use t::share qw( :TIME );
+# use t::plugin_mojo::share qw( :TIME );
 # Mojo::IOLoop->one_tick;       # move time forward by 0.002 sec
 # ff($dur);                     # move time forward by $dur sec
 
@@ -132,7 +132,7 @@ sub ff {
 
 
 ### Mock some config files:
-# use t::share
+# use t::plugin_mojo::share
 #   'log/level' => 'INFO',
 #   'title' => 'test title',
 #   …
@@ -140,7 +140,7 @@ sub ff {
 
 my %MOCK_CONFIG;
 
-sub t::share::import {
+sub t::plugin_mojo::share::import {
     shift;
     if (grep {$_ eq ':TIME'} @_) {
         @_ = grep {$_ ne ':TIME'} @_;

@@ -1,11 +1,11 @@
-use t::share (
+use t::plugin_mojo::share (
     'email/from'        => 'from@localhost',
     'email/envelope'    => 'envelope@localhost',
 );
 
 BEGIN { $ENV{EMAIL_SENDER_TRANSPORT} = 'Test' }
 use _email;
-$_email::TMPL_DIR = 't/plugin-mojo/' . $_email::TMPL_DIR;
+$_email::TMPL_DIR = 't/plugin_mojo/' . $_email::TMPL_DIR;
 
 my $to = 'to@localhost';
 

@@ -160,9 +160,9 @@ _email - simple tool for sending modern looking emails
     tools and ability apply some common/default parameters to each
     function call.
 
-    Realized ability looking for available template files according
-    to recieved parameters and send multipart email message,
-    with correctly updated headers, properly readeble based
+    Implemented ability auto-detect email format based on available
+    templates according to recieved parameters and send multipart email
+    message, with correctly updated headers, properly readable based
     on client email reader configuration.
 
     Correctly processing BCC email parameters
@@ -199,7 +199,7 @@ _email - simple tool for sending modern looking emails
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-    module can work with out any configuration files,
+    module can work without any configuration files,
     but looking for this configuration files:
     email/from
     and
