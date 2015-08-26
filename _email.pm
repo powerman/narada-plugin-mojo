@@ -118,59 +118,80 @@ __END__
 
 =head1 NAME
 
-_email - simple tool for sending modern looking emails
+_email - send emails using Mojo templates
 
 =head1 SYNOPSIS
 
     use _email;
 
-    _email::send(TEMPLATE_FILE_NAME,
+    _email::send('TEMPLATE_NAME',
         [
-            to        => EMAIL,
-            subject   => SUBJECT,
+            To        => 'receiver@domain.tld',
+            To        => 'someone@domain.tld',
+            BCC       => 'boss@domain.tld',
+            Subject   => 'Mail subject',
         ],
         {
             user_name => 'Someone',
             message   => 'Hello world!',
         },
         {
-            from      => FROM,
+            from      => 'sender@domain.tld',
         },
     );
 
-    file: TEMPLATE_FILE_NAME.txt.tmpl <<
+    $ cat > templates/emails/TEMPLATE_NAME.txt.tmpl <<'EOF'
     This is simple text email template file example.
     Welcome [%= $_{user_name} =%]
     [%= $_{message} =%]
-    With best regards, you mailer.
-    <<
+    With best regards, your mailer.
+    EOF
 
-    file: TEMPLATE_FILE_NAME.html.tmpl <<
+    $ cat > templates/emails/TEMPLATE_NAME.html.tmpl <<'EOF'
     <html>
     <h1>Welcome [%= $_{user_name} =%]</h1>
     <i>[%= $_{message} =%]</i>
-    With best regards, you mailer.
+    With best regards, your mailer.
     </html>
-    <<
+    EOF
 
 
 =head1 DESCRIPTION
 
-    Allow sending modern looking emails using mojo template
-    tools and ability apply some common/default parameters to each
-    function call.
+Send email according to available .txt and/or .html Mojo templates:
+if both templates available then send multipart email, otherwise
+send plain email with correct Content-Type.
 
-    Implemented ability auto-detect email format based on available
-    templates according to recieved parameters and send multipart email
-    message, with correctly updated headers, properly readable based
-    on client email reader configuration.
-
-    Correctly processing BCC email parameters
+Support BCC email header.
 
 
-=head1 INTERFACE 
+=head1 INTERFACE
 
-    send("template_name", \@headers, \%tmpl_args, \%mail_args)
+=over
+
+=item send
+
+    send($template_name, \@headers, \%tmpl_args, \%mail_args)
+
+Send email using template files
+C<"templates/emails/$template_name.txt.tmpl"> and/or
+C<"templates/emails/$template_name.html.tmpl"> (at least one of them must
+exists).
+
+C<@headers> should contain pairs of header name (case-insensitive) and value.
+If it doesn't contain header "From" then it will be set to content of
+C<config/email/from> file.
+
+C<%tmpl_args> will be available in templates as C<%_> while rendering them.
+
+C<%mail_args> will be used as second param for
+Email::Sender::Simple::sendmail(). If it doesn't contain key "from" then
+it will be set to content of C<config/email/envelope> file. If it doesn't
+contain key "to" then it'll be set to joined list of emails found in
+C<@headers> keys "To", "CC" and "BCC"; then key "BCC" will be removed from
+C<@headers>.
+
+=back
 
 
 =head1 DIAGNOSTICS
@@ -179,58 +200,40 @@ _email - simple tool for sending modern looking emails
 
 =item C<< usage: send("template_name", \@headers, \%tmpl_args, \%mail_args) >>
 
-    function get wrong parameters
+send() was called with wrong parameters.
 
 =item C<< %s or %s not found', $tmpl_txt, $tmpl_html >>
 
-    can not find email template file
-    template name parameter must not include any extension
-    file extension will be added automatically
-    here is template lookup logic searching for template file name:
-    $TMPL_DIR/ + template_name + [.txt.tmpl] || [.html.tmpl] file extension
+Can not find email template file.
 
 =item C<< email sending failed >>
 
-    function get error during sending email process
-    from Email::Sender::Simple module
+Email::Sender::Simple::sendmail() fail.
 
 =back
 
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-    module can work without any configuration files,
-    but looking for this configuration files:
-    email/from
-    and
-    email/envelope
-    and use it as default values for according email parameters
-
-    by default module looking for templates at folder:
-    templates/emails
-
-    to be visible for module, template files must end by this extention:
-    txt.tmpl - for text templates
-    and
-    html.tmpl - for html templates
+    config/email/from
+    config/email/envelope
+    templates/emails/*.txt.tmpl
+    templates/emails/*.html.tmpl
 
 
 =head1 DEPENDENCIES
 
-    List::Util 1.33
     Email::Abstract
     Email::Address
     Email::MIME
     Email::Sender::Simple
+    List::Util 1.33
     Mojo::Template
     Narada::Config
 
 
 =head1 BUGS AND LIMITATIONS
 
-    sending email to multiply addresses return no error if
-    some email delivery failed/does not accepted, that's result of using
-    Email::Sender::Simple::sendmail() function,
-    using alternative function Email::Sender::Simple::try_to_sendmail()
-    prevent partial delivery with no error or warning
-    but hide internal sendmail error message
+Sending email to multiple addresses return no error if
+some email delivery failed/does not accepted, that's result of using
+Email::Sender::Simple::sendmail() function.
