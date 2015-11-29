@@ -51,5 +51,3 @@ be attached to http://site/app/, then:
 RewriteBase /app/
 RewriteRule ^(.*)$ /app/web_site.cgi/$1 [L]
 ----
-
-

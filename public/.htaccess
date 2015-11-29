@@ -675,4 +675,3 @@ FileETag None
 Order deny,allow
 Deny from all
 Allow from 127 192.168.2
-
